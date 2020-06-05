@@ -1,5 +1,6 @@
 package br.com.alura.loja.modelo;
 
+import java.beans.XMLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -76,5 +77,10 @@ public class Carrinho {
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
+
+	public String toXML(){
+		return new XStream().toXML(this);
+	}
+
 
 }
