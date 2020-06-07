@@ -1,23 +1,27 @@
 package br.com.alura.loja.modelo;
 
-import java.beans.XMLEncoder;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.thoughtworks.xstream.XStream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Carrinho {
 
 	private List<Produto> produtos = new ArrayList<Produto>();
 	private String rua;
 	private String cidade;
 	private long id;
+
+	public Carrinho(){}
 
 	public Carrinho adiciona(Produto produto) {
 		produtos.add(produto);

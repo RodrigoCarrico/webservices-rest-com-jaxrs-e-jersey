@@ -2,6 +2,7 @@ package br.com.alura.loja.resource;
 
 import br.com.alura.loja.dao.CarrinhoDAO;
 import br.com.alura.loja.modelo.Carrinho;
+import br.com.alura.loja.modelo.Produto;
 import com.thoughtworks.xstream.XStream;
 
 import javax.ws.rs.*;
@@ -14,9 +15,9 @@ public class CarrinhoResource {
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public String busca(@PathParam("id") long id){
+    public Carrinho busca(@PathParam("id") long id){
         Carrinho carrinho = new CarrinhoDAO().busca(id);
-        return carrinho.toXML();
+        return carrinho;
     }
 
     @POST
@@ -27,6 +28,24 @@ public class CarrinhoResource {
         URI uri = URI.create("/carrinhos/"+ carrinho.getId() );
         return Response.created(uri).build();
     }
+
+    @Path("{id}/produtos/{produtoId}")
+    @DELETE
+    public Response removeProduto(@PathParam("id") long id, @PathParam("produtoId") long produtoId){
+        Carrinho carrinho = new CarrinhoDAO().busca(id);
+        carrinho.remove(produtoId);
+        return Response.ok().build();
+    }
+
+    @Path("{id}/produtos/{produtoId}/quantidade")
+    @DELETE
+    public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
+        Carrinho carrinho = new CarrinhoDAO().busca(id);
+        Produto produto = (Produto) new XStream().fromXML(conteudo);
+        carrinho.trocaQuantidade(produto);
+        return Response.ok().build();
+    }
+
 
 }
 
